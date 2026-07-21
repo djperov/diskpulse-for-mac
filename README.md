@@ -17,7 +17,13 @@ DiskPulse for Mac is a private, local disk-space monitor for macOS. It shows whi
 
 ## Screenshots
 
-Screenshots will be added with the first public release. The app window shows the disk summary, a folder tree, size, and growth columns.
+Disk scan with an estimated time remaining and a stop button:
+
+![Disk scan in progress](docs/screenshots/scanning-ru.png)
+
+Finder-like folder tree with size and growth columns:
+
+![Folder tree](docs/screenshots/overview-ru.png)
 
 ## Installation
 
@@ -65,7 +71,13 @@ DiskPulse for Mac — локальное приложение для macOS, ко
 
 ## Скриншоты
 
-Скриншоты будут добавлены вместе с первым публичным релизом. В окне приложения отображаются сводка по диску, дерево папок, размер и прирост.
+Сканирование диска с прогнозом времени и кнопкой остановки:
+
+![Сканирование диска](docs/screenshots/scanning-ru.png)
+
+Дерево папок в стиле Finder с колонками размера и прироста:
+
+![Дерево папок](docs/screenshots/overview-ru.png)
 
 ## Установка
 
