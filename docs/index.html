@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DiskPulse for Mac scans your disk, reveals the largest folders, and tracks folder-size changes over time.">
+  <meta name="robots" content="index,follow">
+  <meta property="og:title" content="DiskPulse for Mac — know what uses your disk space">
+  <meta property="og:description" content="A private macOS disk-space monitor with folder snapshots and growth tracking.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://djperov.github.io/diskpulse-for-mac/">
+  <meta property="og:image" content="https://djperov.github.io/diskpulse-for-mac/screenshots/overview-ru.png">
+  <link rel="icon" type="image/png" href="../Assets/DiskPulseIcon.png">
+  <link rel="canonical" href="https://djperov.github.io/diskpulse-for-mac/">
+  <title>DiskPulse for Mac — Disk space monitor</title>
+  <style>
+    :root { --ink:#1d1d1f; --muted:#6e6e73; --line:#d2d2d7; --blue:#0071e3; --soft:#f5f5f7; --card:#fff; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:var(--soft); font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif; }
+    a { color:inherit; }
+    .wrap { width:min(1120px,calc(100% - 40px)); margin:auto; }
+    header { position:sticky; top:0; z-index:2; background:rgba(255,255,255,.78); border-bottom:1px solid rgba(210,210,215,.75); backdrop-filter:blur(18px); }
+    nav { height:58px; display:flex; align-items:center; justify-content:space-between; gap:18px; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:700; text-decoration:none; }
+    .brand img { width:30px; height:30px; border-radius:8px; }
+    .actions { display:flex; align-items:center; gap:14px; }
+    .repo { color:var(--muted); font-size:14px; text-decoration:none; }
+    .language { border:1px solid var(--line); border-radius:980px; padding:7px 11px; color:var(--ink); background:#fff; cursor:pointer; font:inherit; font-size:14px; }
+    .hero { padding:96px 0 84px; text-align:center; background:radial-gradient(circle at 50% 0,#e0efff 0,transparent 48%),var(--soft); }
+    .eyebrow { color:var(--blue); font-size:17px; font-weight:600; margin:0 0 14px; }
+    h1 { max-width:850px; margin:0 auto; font-size:clamp(45px,7vw,78px); line-height:1.04; letter-spacing:-.055em; }
+    .lead { max-width:680px; margin:24px auto 0; font-size:clamp(19px,2.3vw,26px); line-height:1.35; color:var(--muted); }
+    .buttons { display:flex; justify-content:center; flex-wrap:wrap; gap:13px; margin-top:34px; }
+    .button { display:inline-flex; align-items:center; justify-content:center; padding:14px 21px; border-radius:980px; color:#fff; background:var(--blue); font-weight:600; text-decoration:none; }
+    .button.secondary { color:var(--blue); background:#fff; border:1px solid var(--line); }
+    .requirement { margin:16px 0 0; color:var(--muted); font-size:14px; }
+    section { padding:84px 0; }
+    h2 { margin:0; font-size:clamp(32px,4.3vw,52px); line-height:1.08; letter-spacing:-.045em; text-align:center; }
+    .section-intro { max-width:650px; margin:16px auto 0; text-align:center; color:var(--muted); font-size:18px; line-height:1.45; }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
+    .feature { padding:27px; min-height:190px; background:var(--card); border-radius:24px; box-shadow:0 1px 2px rgba(0,0,0,.03); }
+    .feature b { display:block; margin-bottom:9px; font-size:20px; }
+    .feature p { margin:0; color:var(--muted); line-height:1.45; }
+    .screens { background:#fff; }
+    .shots { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:40px; }
+    figure { margin:0; overflow:hidden; border:1px solid var(--line); border-radius:18px; background:var(--soft); }
+    figure img { display:block; width:100%; height:auto; }
+    figcaption { padding:15px 17px; color:var(--muted); font-size:14px; }
+    .install { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; }
+    .install h2, .install .section-intro { text-align:left; margin-left:0; }
+    ol { margin:28px 0 0; padding:0; list-style:none; counter-reset:steps; }
+    li { position:relative; padding:0 0 20px 48px; font-size:17px; line-height:1.45; }
+    li::before { counter-increment:steps; content:counter(steps); position:absolute; left:0; top:-3px; width:29px; height:29px; display:grid; place-items:center; color:#fff; background:var(--blue); border-radius:50%; font-size:14px; font-weight:700; }
+    .privacy { padding:34px; border-radius:24px; background:#1d1d1f; color:#fff; }
+    .privacy h3 { margin:0 0 10px; font-size:25px; }
+    .privacy p { margin:0; color:#d2d2d7; line-height:1.5; }
+    footer { padding:30px 0; border-top:1px solid var(--line); color:var(--muted); font-size:14px; }
+    footer .wrap { display:flex; align-items:center; justify-content:space-between; gap:15px; }
+    .ru { display:none; }
+    body.russian .en { display:none; }
+    body.russian .ru { display:inline; }
+    body.russian .ru.block { display:block; }
+    @media (max-width:760px) { .repo { display:none; } .hero { padding:68px 0 58px; } section { padding:58px 0; } .grid, .shots, .install { grid-template-columns:1fr; } .install { gap:28px; } footer .wrap { display:block; } footer .wrap p { margin:0 0 10px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="wrap">
+      <a class="brand" href="#top"><img src="../Assets/DiskPulseIcon.png" alt="DiskPulse icon">DiskPulse for Mac</a>
+      <div class="actions"><a class="repo" href="https://github.com/djperov/diskpulse-for-mac">GitHub</a><button class="language" id="language" type="button">Русский</button></div>
+    </nav>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <p class="eyebrow en">Disk space, made clear.</p><p class="eyebrow ru">Место на диске — без загадок.</p>
+        <h1 class="en">Know what uses your disk space.</h1><h1 class="ru">Поймите, что занимает место на диске.</h1>
+        <p class="lead en">DiskPulse scans your Mac, shows the largest folders in a Finder-like tree, and tracks how their size changes over time.</p>
+        <p class="lead ru">DiskPulse сканирует ваш Mac, показывает самые тяжёлые папки в дереве как в Finder и отслеживает изменение их размера со временем.</p>
+        <div class="buttons">
+          <a class="button en" href="https://github.com/djperov/diskpulse-for-mac/releases/download/v1.0.0/DiskPulse-for-Mac-1.0.0.dmg">Download for Mac</a>
+          <a class="button ru" href="https://github.com/djperov/diskpulse-for-mac/releases/download/v1.0.0/DiskPulse-for-Mac-1.0.0.dmg">Скачать для Mac</a>
+          <a class="button secondary en" href="#install">How to install</a><a class="button secondary ru" href="#install">Как установить</a>
+        </div>
+        <p class="requirement en">Free · macOS 14 Sonoma or later · Your files stay on your Mac</p><p class="requirement ru">Бесплатно · macOS 14 Sonoma или новее · Ваши файлы остаются на Mac</p>
+      </div>
+    </section>
+    <section>
+      <div class="wrap">
+        <h2 class="en">Find. Compare. Take control.</h2><h2 class="ru">Найдите. Сравните. Освободите место.</h2>
+        <p class="section-intro en">A focused utility for answering one important question: where did your disk space go?</p><p class="section-intro ru">Простая утилита для ответа на важный вопрос: куда исчезло свободное место?</p>
+        <div class="grid">
+          <article class="feature"><b class="en">Whole-disk scan</b><b class="ru">Сканирование всего диска</b><p class="en">Explore folders from the root of your main disk — not just one selected folder.</p><p class="ru">Просматривайте папки от корня основного диска, а не только внутри одной выбранной папки.</p></article>
+          <article class="feature"><b class="en">Folder snapshots</b><b class="ru">Снимки папок</b><p class="en">Save folder sizes and compare them with a later scan to see what grew.</p><p class="ru">Сохраняйте размеры папок и сравнивайте с последующим сканированием, чтобы увидеть прирост.</p></article>
+          <article class="feature"><b class="en">Finder-like tree</b><b class="ru">Дерево как в Finder</b><p class="en">Open folder branches, sort by size or growth, and jump to a folder in Finder.</p><p class="ru">Раскрывайте ветки, сортируйте по размеру или приросту и открывайте папку в Finder.</p></article>
+          <article class="feature"><b class="en">Progress you can trust</b><b class="ru">Понятный прогресс</b><p class="en">See scan progress, estimated time remaining, and stop the scan whenever you need.</p><p class="ru">Видите прогресс, примерное оставшееся время и можете остановить сканирование в любой момент.</p></article>
+          <article class="feature"><b class="en">Private by design</b><b class="ru">Приватность по умолчанию</b><p class="en">No accounts, no cloud upload, no tracking. History is stored locally on your Mac.</p><p class="ru">Без аккаунтов, отправки данных в облако и отслеживания. История хранится только на вашем Mac.</p></article>
+          <article class="feature"><b class="en">English and Russian</b><b class="ru">Русский и английский</b><p class="en">Switch the application interface between English and Russian whenever you need.</p><p class="ru">Переключайте интерфейс приложения между русским и английским в любое время.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="screens">
+      <div class="wrap">
+        <h2 class="en">Everything visible at a glance.</h2><h2 class="ru">Всё важное — с первого взгляда.</h2>
+        <div class="shots">
+          <figure><img src="screenshots/scanning-ru.png" alt="Disk scan progress in DiskPulse for Mac"><figcaption class="en">Live scan progress with estimated time remaining.</figcaption><figcaption class="ru">Прогресс сканирования с прогнозом оставшегося времени.</figcaption></figure>
+          <figure><img src="screenshots/overview-ru.png" alt="Folder tree in DiskPulse for Mac"><figcaption class="en">Folder tree with size and growth columns.</figcaption><figcaption class="ru">Дерево папок с колонками размера и прироста.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+    <section id="install">
+      <div class="wrap install">
+        <div><h2 class="en">Install in a minute.</h2><h2 class="ru">Установка за минуту.</h2><p class="section-intro en">DiskPulse is a regular macOS application. No additional software is required.</p><p class="section-intro ru">DiskPulse — обычное приложение macOS. Ничего дополнительно устанавливать не нужно.</p>
+          <ol><li class="en">Download the <strong>.dmg</strong> file.</li><li class="ru">Скачайте файл <strong>.dmg</strong>.</li><li class="en">Open it and drag <strong>DiskPulse for Mac</strong> into Applications.</li><li class="ru">Откройте его и перенесите <strong>DiskPulse for Mac</strong> в папку «Программы».</li><li class="en">Open the app. For a complete scan, grant Full Disk Access in macOS settings.</li><li class="ru">Откройте приложение. Для полного сканирования предоставьте «Полный доступ к диску» в настройках macOS.</li></ol>
+        </div>
+        <aside class="privacy"><h3 class="en">Your data stays yours.</h3><h3 class="ru">Ваши данные остаются вашими.</h3><p class="en">Snapshot history is saved locally at <strong>~/Library/Application Support/DiskPulse/history.sqlite</strong>. DiskPulse does not upload your folder names or files.</p><p class="ru">История снимков хранится локально: <strong>~/Library/Application Support/DiskPulse/history.sqlite</strong>. DiskPulse не отправляет в интернет имена папок и файлы.</p></aside>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap"><p>© 2026 DiskPulse for Mac</p><a href="https://github.com/djperov/diskpulse-for-mac">GitHub · MIT License</a></div></footer>
+  <script>
+    const button = document.getElementById('language');
+    button.addEventListener('click', () => {
+      const russian = document.body.classList.toggle('russian');
+      document.documentElement.lang = russian ? 'ru' : 'en';
+      document.title = russian ? 'DiskPulse for Mac — Контроль места на диске' : 'DiskPulse for Mac — Disk space monitor';
+      button.textContent = russian ? 'English' : 'Русский';
+    });
+  </script>
+</body>
+</html>
