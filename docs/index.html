@@ -60,14 +60,15 @@
     .ru { display:none; }
     body.russian .en { display:none; }
     body.russian .ru { display:inline; }
-    body.russian .ru.block { display:block; }
+    body.russian h1.ru, body.russian h2.ru, body.russian h3.ru, body.russian p.ru, body.russian b.ru, body.russian figcaption.ru { display:block; }
+    body.russian li.ru { display:list-item; }
     @media (max-width:760px) { .repo { display:none; } .hero { padding:68px 0 58px; } section { padding:58px 0; } .grid, .shots, .install { grid-template-columns:1fr; } .install { gap:28px; } footer .wrap { display:block; } footer .wrap p { margin:0 0 10px; } }
   </style>
 </head>
 <body>
   <header>
     <nav class="wrap">
-      <a class="brand" href="#top"><img src="../Assets/DiskPulseIcon.png" alt="DiskPulse icon">DiskPulse for Mac</a>
+      <a class="brand" href="#top"><img src="diskpulse-icon.png" alt="DiskPulse icon">DiskPulse for Mac</a>
       <div class="actions"><a class="repo" href="https://github.com/djperov/diskpulse-for-mac">GitHub</a><button class="language" id="language" type="button">Русский</button></div>
     </nav>
   </header>
