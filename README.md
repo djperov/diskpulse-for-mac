@@ -23,6 +23,10 @@ Disk scan with an estimated time remaining and a stop button:
 
 ![Disk scan in progress — English](docs/screenshots/scanning-en.png)
 
+Finder-like folder tree with size and growth columns:
+
+![Folder tree — English](docs/screenshots/overview-en.png)
+
 ### Русский
 
 Сканирование диска с прогнозом времени и кнопкой остановки:
