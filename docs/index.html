@@ -9,8 +9,8 @@
   <meta property="og:description" content="A private macOS disk-space monitor with folder snapshots and growth tracking.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://djperov.github.io/diskpulse-for-mac/">
-  <meta property="og:image" content="https://djperov.github.io/diskpulse-for-mac/screenshots/overview-ru.png">
-  <link rel="icon" type="image/png" href="../Assets/DiskPulseIcon.png">
+  <meta property="og:image" content="https://djperov.github.io/diskpulse-for-mac/screenshots/scanning-en.png">
+  <link rel="icon" type="image/png" href="diskpulse-icon.png">
   <link rel="canonical" href="https://djperov.github.io/diskpulse-for-mac/">
   <title>DiskPulse for Mac — Disk space monitor</title>
   <style>
@@ -23,7 +23,7 @@
     header { position:sticky; top:0; z-index:2; background:rgba(255,255,255,.78); border-bottom:1px solid rgba(210,210,215,.75); backdrop-filter:blur(18px); }
     nav { height:58px; display:flex; align-items:center; justify-content:space-between; gap:18px; }
     .brand { display:flex; align-items:center; gap:10px; font-weight:700; text-decoration:none; }
-    .brand img { width:30px; height:30px; border-radius:8px; }
+    .brand img { width:22px; height:22px; border-radius:6px; object-fit:contain; }
     .actions { display:flex; align-items:center; gap:14px; }
     .repo { color:var(--muted); font-size:14px; text-decoration:none; }
     .language { border:1px solid var(--line); border-radius:980px; padding:7px 11px; color:var(--ink); background:#fff; cursor:pointer; font:inherit; font-size:14px; }
@@ -43,7 +43,7 @@
     .feature b { display:block; margin-bottom:9px; font-size:20px; }
     .feature p { margin:0; color:var(--muted); line-height:1.45; }
     .screens { background:#fff; }
-    .shots { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:40px; }
+    .shots { display:grid; grid-template-columns:minmax(0,760px); justify-content:center; gap:22px; margin-top:40px; }
     figure { margin:0; overflow:hidden; border:1px solid var(--line); border-radius:18px; background:var(--soft); }
     figure img { display:block; width:100%; height:auto; }
     figcaption { padding:15px 17px; color:var(--muted); font-size:14px; }
@@ -62,6 +62,11 @@
     body.russian .ru { display:inline; }
     body.russian h1.ru, body.russian h2.ru, body.russian h3.ru, body.russian p.ru, body.russian b.ru, body.russian figcaption.ru { display:block; }
     body.russian li.ru { display:list-item; }
+    .shot-en { display:block; }
+    .shot-ru { display:none; }
+    body.russian .shots { grid-template-columns:repeat(2,1fr); justify-content:stretch; }
+    body.russian .shot-en { display:none; }
+    body.russian .shot-ru { display:block; }
     @media (max-width:760px) { .repo { display:none; } .hero { padding:68px 0 58px; } section { padding:58px 0; } .grid, .shots, .install { grid-template-columns:1fr; } .install { gap:28px; } footer .wrap { display:block; } footer .wrap p { margin:0 0 10px; } }
   </style>
 </head>
@@ -105,8 +110,9 @@
       <div class="wrap">
         <h2 class="en">Everything visible at a glance.</h2><h2 class="ru">Всё важное — с первого взгляда.</h2>
         <div class="shots">
-          <figure><img src="screenshots/scanning-ru.png" alt="Disk scan progress in DiskPulse for Mac"><figcaption class="en">Live scan progress with estimated time remaining.</figcaption><figcaption class="ru">Прогресс сканирования с прогнозом оставшегося времени.</figcaption></figure>
-          <figure><img src="screenshots/overview-ru.png" alt="Folder tree in DiskPulse for Mac"><figcaption class="en">Folder tree with size and growth columns.</figcaption><figcaption class="ru">Дерево папок с колонками размера и прироста.</figcaption></figure>
+          <figure class="shot-en"><img src="screenshots/scanning-en.png" alt="Disk scan progress in the English interface of DiskPulse for Mac"><figcaption>Live scan progress with estimated time remaining.</figcaption></figure>
+          <figure class="shot-ru"><img src="screenshots/scanning-ru.png" alt="Прогресс сканирования в русской версии DiskPulse for Mac"><figcaption>Прогресс сканирования с прогнозом оставшегося времени.</figcaption></figure>
+          <figure class="shot-ru"><img src="screenshots/overview-ru.png" alt="Дерево папок в русской версии DiskPulse for Mac"><figcaption>Дерево папок с колонками размера и прироста.</figcaption></figure>
         </div>
       </div>
     </section>
