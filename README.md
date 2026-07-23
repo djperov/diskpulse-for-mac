@@ -25,7 +25,7 @@ Disk scan with an estimated time remaining and a stop button:
 
 Finder-like folder tree with size and growth columns:
 
-![Folder tree — English](docs/screenshots/overview-en.png)
+![Folder tree — English](docs/screenshots/overview-en.png?v=2)
 
 ### Русский
 
