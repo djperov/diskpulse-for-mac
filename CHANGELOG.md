@@ -7,5 +7,6 @@
 - Improved history safety and SQLite storage handling.
 - Reworked the folder tree to load branches on demand.
 - Added copy-full-path, About, website, and GitHub feedback links.
+- Added manual update checking from About: the app can find a newer GitHub Release, download its installer, and open it after confirmation.
 - Added scan-stop confirmation, automatic latest-snapshot comparison, and snapshot storage-size display.
 - Added Russian and English GitHub Issue templates.

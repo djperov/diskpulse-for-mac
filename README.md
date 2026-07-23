@@ -18,6 +18,7 @@ DiskPulse for Mac is a private, local disk-space monitor for macOS. It shows whi
 - Use the app in English or Russian.
 - Keep local history in compressed SQLite storage; the ten newest snapshots are retained.
 - Send feedback or report a bug from the About window.
+- Check GitHub Releases for a newer version from the About window and download its installer.
 
 ## Screenshots
 
@@ -88,6 +89,7 @@ DiskPulse for Mac — локальное приложение для macOS, ко
 - Русский и английский интерфейс.
 - Сжатая история в SQLite; приложение хранит десять последних снимков.
 - Отправка отзыва или сообщения об ошибке из окна «О программе».
+- Проверка новой версии в GitHub Releases и скачивание установщика из окна «О программе».
 
 ## Скриншоты
 

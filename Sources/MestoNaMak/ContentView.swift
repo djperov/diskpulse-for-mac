@@ -6,6 +6,10 @@ struct ContentView: View {
     @AppStorage("appLanguage") private var languageCode = AppLanguage.russian.rawValue
     @State private var isShowingAbout = false
     @State private var isConfirmingStop = false
+    @State private var isCheckingForUpdates = false
+    @State private var isDownloadingUpdate = false
+    @State private var availableUpdate: ReleaseUpdate?
+    @State private var updateMessage: String?
 
     private var language: AppLanguage { AppLanguage(rawValue: languageCode) ?? .russian }
     private func t(_ key: String, _ arguments: CVarArg...) -> String { tr(key, language: language, arguments) }
@@ -44,6 +48,12 @@ struct ContentView: View {
             Button(t("cancel"), role: .cancel) {}
         } message: {
             Text(t("stop.confirm.message"))
+        }
+        .confirmationDialog(t("update.available", availableUpdate?.version ?? ""), isPresented: Binding(get: { availableUpdate != nil }, set: { if !$0 { availableUpdate = nil } }), titleVisibility: .visible) {
+            Button(t("update.download")) { downloadAvailableUpdate() }
+            Button(t("cancel"), role: .cancel) { availableUpdate = nil }
+        } message: {
+            Text(t("update.available.message"))
         }
     }
 
@@ -197,11 +207,67 @@ struct ContentView: View {
             }
             Link(t("feedback"), destination: URL(string: "https://github.com/djperov/diskpulse-for-mac/issues")!)
                 .buttonStyle(.bordered)
+            Button { checkForUpdates() } label: {
+                if isCheckingForUpdates || isDownloadingUpdate {
+                    ProgressView()
+                        .controlSize(.small)
+                } else {
+                    Text(t("update.check"))
+                }
+            }
+            .disabled(isCheckingForUpdates || isDownloadingUpdate)
+            if let updateMessage {
+                Text(updateMessage)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
             Button(t("close")) { isShowingAbout = false }
                 .keyboardShortcut(.defaultAction)
         }
         .padding(28)
         .frame(width: 430)
+    }
+
+    private func checkForUpdates() {
+        isCheckingForUpdates = true
+        updateMessage = nil
+        Task { @MainActor in
+            do {
+                let release = try await UpdateService.latestRelease()
+                isCheckingForUpdates = false
+                if UpdateService.isNewer(release.version, than: UpdateService.currentVersion) {
+                    availableUpdate = release
+                } else {
+                    updateMessage = t("update.latest", UpdateService.currentVersion)
+                }
+            } catch {
+                isCheckingForUpdates = false
+                updateMessage = t("update.failed")
+            }
+        }
+    }
+
+    private func downloadAvailableUpdate() {
+        guard let asset = availableUpdate?.installer else {
+            updateMessage = t("update.no.installer")
+            availableUpdate = nil
+            return
+        }
+        availableUpdate = nil
+        isDownloadingUpdate = true
+        updateMessage = t("update.downloading")
+        Task { @MainActor in
+            do {
+                let installer = try await UpdateService.download(asset)
+                isDownloadingUpdate = false
+                updateMessage = t("update.downloaded")
+                NSWorkspace.shared.open(installer)
+            } catch {
+                isDownloadingUpdate = false
+                updateMessage = t("update.failed")
+            }
+        }
     }
 
     private var folderTree: some View {

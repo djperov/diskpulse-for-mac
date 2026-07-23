@@ -22,6 +22,7 @@ func tr(_ key: String, language: AppLanguage, _ arguments: CVarArg...) -> String
             "empty.description": "Создайте первый снимок всего диска.", "error": "Ошибка", "open.finder": "Открыть в Finder", "copy.path": "Копировать путь",
             "about": "О программе", "about.description": "Анализатор свободного места и изменений размера папок для macOS.",
             "about.author": "Автор", "about.email": "Почта", "about.website": "Сайт", "feedback": "Отправить отзыв / Сообщить об ошибке", "close": "Закрыть",
+            "update.check": "Проверить обновления", "update.available": "Доступна версия %@", "update.available.message": "Скачать установщик из GitHub и открыть его?", "update.download": "Скачать и открыть", "update.latest": "Установлена актуальная версия %@", "update.downloading": "Скачиваю обновление…", "update.downloaded": "Установщик скачан и открыт.", "update.failed": "Не удалось проверить обновления.", "update.no.installer": "В Release нет файла .dmg или .zip.",
             "cancel": "Отмена", "stop.confirm.title": "Остановить сканирование?", "stop.confirm.message": "Текущий результат не будет сохранён в истории."
         ],
         .english: [
@@ -35,6 +36,7 @@ func tr(_ key: String, language: AppLanguage, _ arguments: CVarArg...) -> String
             "empty.description": "Create the first snapshot of the whole disk.", "error": "Error", "open.finder": "Open in Finder", "copy.path": "Copy Path",
             "about": "About", "about.description": "A macOS utility for tracking free space and folder-size changes.",
             "about.author": "Author", "about.email": "Email", "about.website": "Website", "feedback": "Send Feedback / Report a Bug", "close": "Close",
+            "update.check": "Check for Updates", "update.available": "Version %@ is available", "update.available.message": "Download the installer from GitHub and open it?", "update.download": "Download and Open", "update.latest": "Version %@ is up to date", "update.downloading": "Downloading update…", "update.downloaded": "Installer downloaded and opened.", "update.failed": "Could not check for updates.", "update.no.installer": "The release does not contain a DMG or ZIP file.",
             "cancel": "Cancel", "stop.confirm.title": "Stop scanning?", "stop.confirm.message": "The current result will not be saved to history."
         ]
     ]
