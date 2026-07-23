@@ -43,7 +43,7 @@ final class FileChangeTracker {
     /// After app launch FSEvents needs a brief moment to replay changes since
     /// the saved checkpoint. Without this wait, an immediate click on Scan
     /// unnecessarily falls back to a full disk walk.
-    func waitForHistory(maximumWait: Int = 20) async {
+    func waitForHistory(maximumWait: Int = 100) async {
         guard needsHistoryReplay else { return }
         for _ in 0..<maximumWait {
             if historyReplayFinished { return }
@@ -117,7 +117,10 @@ final class FileChangeTracker {
                 requiresFullScan = true
                 unsafeEventID = max(unsafeEventID ?? 0, UInt64(ids[index]))
             }
-            if let path = values[safe: index], path.hasPrefix(rootPath) {
+            // `rootPath + "/"` would become `//` for the startup-disk root.
+            // In that common case every FSEvent path is already below `/`.
+            if let path = values[safe: index],
+               rootPath == "/" || path == rootPath || path.hasPrefix(rootPath + "/") {
                 changedPaths[path] = UInt64(ids[index])
             }
         }
