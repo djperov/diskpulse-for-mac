@@ -11,9 +11,13 @@ DiskPulse for Mac is a private, local disk-space monitor for macOS. It shows whi
 - Sort folders by current size or growth since a selected snapshot.
 - Compare saved snapshots and remove unneeded ones.
 - Open a folder directly in Finder from the context menu.
-- Stop a scan at any time.
+- Copy a full folder path, including the disk name, from the context menu.
+- Choose an accelerated scan of changed folders or a full disk scan.
+- See the scan type, live progress, estimate, and elapsed scan time.
+- Confirm before stopping a scan by accident.
 - Use the app in English or Russian.
 - Keep local history in compressed SQLite storage; the ten newest snapshots are retained.
+- Send feedback or report a bug from the About window.
 
 ## Screenshots
 
@@ -39,9 +43,9 @@ Finder-like folder tree with size and growth columns:
 
 ## Installation
 
-The first public release will be available from the repository's **Releases** page.
+Download the latest release from the repository's [Releases](https://github.com/djperov/diskpulse-for-mac/releases) page.
 
-1. Download `DiskPulse-for-Mac.zip` or the `.dmg` file.
+1. Download `DiskPulse-for-Mac-1.1.0.dmg`.
 2. Move **DiskPulse for Mac.app** to the **Applications** folder.
 3. Open the app.
 4. For a complete scan, allow **Full Disk Access** in **System Settings → Privacy & Security → Full Disk Access**.
@@ -77,9 +81,13 @@ DiskPulse for Mac — локальное приложение для macOS, ко
 - Сортировка по текущему размеру или приросту относительно выбранного снимка.
 - Сравнение снимков, удаление ненужных записей истории.
 - Открытие выбранной папки в Finder по правой кнопке мыши.
-- Остановка сканирования в любой момент.
+- Копирование полного пути к папке вместе с именем диска.
+- Выбор ускоренного сканирования изменённых папок или полного сканирования диска.
+- Отображение типа сканирования, прогноза, прогресса и секундомера.
+- Подтверждение перед остановкой сканирования.
 - Русский и английский интерфейс.
 - Сжатая история в SQLite; приложение хранит десять последних снимков.
+- Отправка отзыва или сообщения об ошибке из окна «О программе».
 
 ## Скриншоты
 
@@ -93,9 +101,9 @@ DiskPulse for Mac — локальное приложение для macOS, ко
 
 ## Установка
 
-Первый публичный релиз будет доступен на странице **Releases** этого репозитория.
+Скачайте последнюю версию на странице [Releases](https://github.com/djperov/diskpulse-for-mac/releases) этого репозитория.
 
-1. Скачайте `DiskPulse-for-Mac.zip` или `.dmg`.
+1. Скачайте `DiskPulse-for-Mac-1.1.0.dmg`.
 2. Перенесите **DiskPulse for Mac.app** в папку «Программы».
 3. Откройте приложение.
 4. Для полного сканирования разрешите «Полный доступ к диску»: **Системные настройки → Конфиденциальность и безопасность → Полный доступ к диску**.

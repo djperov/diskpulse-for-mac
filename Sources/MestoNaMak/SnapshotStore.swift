@@ -25,6 +25,10 @@ final class SnapshotStore {
                 payload BLOB NOT NULL
             );
             CREATE INDEX IF NOT EXISTS snapshots_created_at ON snapshots(created_at DESC);
+            CREATE TABLE IF NOT EXISTS scan_checkpoints (
+                root_path TEXT PRIMARY KEY NOT NULL,
+                payload BLOB NOT NULL
+            );
             """)
     }
 
@@ -37,7 +41,8 @@ final class SnapshotStore {
 
     /// Replaces history transactionally. The database is only changed after every
     /// snapshot has been encoded, and legacy files are removed afterwards.
-    func save(_ snapshots: [Snapshot]) throws {
+    @discardableResult
+    func save(_ snapshots: [Snapshot]) throws -> [UUID: Int] {
         guard database != nil else { throw StoreError.databaseUnavailable }
         let payloads = try snapshots.map { try encode($0) }
         try execute("BEGIN IMMEDIATE TRANSACTION;")
@@ -57,6 +62,7 @@ final class SnapshotStore {
             }
             try execute("COMMIT;")
             for url in legacyJSONURLs + legacyCompressedURLs { try? FileManager.default.removeItem(at: url) }
+            return Dictionary(uniqueKeysWithValues: zip(snapshots, payloads).map { ($0.0.id, $0.1.count) })
         } catch {
             try? execute("ROLLBACK;")
             throw error
@@ -67,6 +73,23 @@ final class SnapshotStore {
         try execute("VACUUM;")
     }
 
+    func loadCheckpoint(rootPath: String) -> ScanCheckpoint? {
+        guard let statement = try? prepare("SELECT payload FROM scan_checkpoints WHERE root_path = ?;") else { return nil }
+        defer { sqlite3_finalize(statement) }
+        sqlite3_bind_text(statement, 1, rootPath, -1, SQLITE_TRANSIENT)
+        guard sqlite3_step(statement) == SQLITE_ROW, let pointer = sqlite3_column_blob(statement, 0) else { return nil }
+        return try? JSONDecoder().decode(ScanCheckpoint.self, from: Data(bytes: pointer, count: Int(sqlite3_column_bytes(statement, 0))))
+    }
+
+    func saveCheckpoint(_ checkpoint: ScanCheckpoint) throws {
+        let payload = try JSONEncoder().encode(checkpoint)
+        let statement = try prepare("INSERT OR REPLACE INTO scan_checkpoints (root_path, payload) VALUES (?, ?);")
+        defer { sqlite3_finalize(statement) }
+        sqlite3_bind_text(statement, 1, checkpoint.rootPath, -1, SQLITE_TRANSIENT)
+        let bound = payload.withUnsafeBytes { sqlite3_bind_blob(statement, 2, $0.baseAddress, Int32(payload.count), SQLITE_TRANSIENT) }
+        guard bound == SQLITE_OK, sqlite3_step(statement) == SQLITE_DONE else { throw lastError }
+    }
+
     private func readDatabase() -> [Snapshot] {
         guard let statement = try? prepare("SELECT payload FROM snapshots ORDER BY created_at DESC;") else { return [] }
         defer { sqlite3_finalize(statement) }
@@ -74,7 +97,9 @@ final class SnapshotStore {
         while sqlite3_step(statement) == SQLITE_ROW {
             guard let pointer = sqlite3_column_blob(statement, 0) else { continue }
             let length = Int(sqlite3_column_bytes(statement, 0))
-            if let snapshot = try? decode(Data(bytes: pointer, count: length)) { snapshots.append(snapshot) }
+            if let snapshot = try? decode(Data(bytes: pointer, count: length)) {
+                snapshots.append(snapshot.withStorageBytes(length))
+            }
         }
         return snapshots
     }

@@ -12,7 +12,7 @@ struct FolderNode: Identifiable {
     let path: String
     let bytes: Int64
     let growth: Int64
-    let children: [FolderNode]?
+    let hasChildren: Bool
 
     var id: String { path }
     var name: String {
@@ -26,13 +26,31 @@ struct Snapshot: Identifiable, Codable, Hashable {
     let rootPath: String
     let folderBytes: [String: Int64]
     let scannedEntries: Int?
+    /// Size of this snapshot's compressed payload in the local history database.
+    let storageBytes: Int?
 
-    init(createdAt: Date = .now, rootPath: String, folderBytes: [String: Int64], scannedEntries: Int? = nil) {
+    init(createdAt: Date = .now, rootPath: String, folderBytes: [String: Int64], scannedEntries: Int? = nil, storageBytes: Int? = nil) {
         self.id = UUID()
         self.createdAt = createdAt
         self.rootPath = rootPath
         self.folderBytes = folderBytes
         self.scannedEntries = scannedEntries
+        self.storageBytes = storageBytes
+    }
+
+    func withStorageBytes(_ bytes: Int) -> Snapshot {
+        var copy = self
+        copy = Snapshot(id: id, createdAt: createdAt, rootPath: rootPath, folderBytes: folderBytes, scannedEntries: scannedEntries, storageBytes: bytes)
+        return copy
+    }
+
+    private init(id: UUID, createdAt: Date, rootPath: String, folderBytes: [String: Int64], scannedEntries: Int?, storageBytes: Int?) {
+        self.id = id
+        self.createdAt = createdAt
+        self.rootPath = rootPath
+        self.folderBytes = folderBytes
+        self.scannedEntries = scannedEntries
+        self.storageBytes = storageBytes
     }
 }
 
@@ -41,4 +59,9 @@ enum SortMode: CaseIterable, Identifiable {
     case growth
     var id: Self { self }
     var translationKey: String { self == .size ? "size" : "growth" }
+}
+
+enum ScanMode {
+    case accelerated
+    case full
 }

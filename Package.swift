@@ -8,7 +8,7 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "MestoNaMak",
-            linkerSettings: [.linkedLibrary("sqlite3")]
+            linkerSettings: [.linkedLibrary("sqlite3"), .linkedFramework("CoreServices")]
         )
     ]
 )
